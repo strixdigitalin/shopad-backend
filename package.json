@@ -1,0 +1,32 @@
+{
+  "name": "shopad",
+  "version": "1.0.0",
+  "description": "Shop Ad React Native App Apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "shopad",
+    "strix",
+    "strixdigital"
+  ],
+  "author": "Aadarsh Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cloudinary": "^1.31.0",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "formidable": "^2.0.1",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.8",
+    "nodemon": "^2.0.19"
+  }
+}
