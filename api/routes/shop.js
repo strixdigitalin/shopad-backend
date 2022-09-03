@@ -128,7 +128,7 @@ router.post('/active',checkAuth, (req,res,next)=>{
     const id = req.body.id;
     shop.update({_id:id},{isActive:true})
     .exec()
-    .then(data => res.status(200).json(data))
+    .then(data => res.status(200).json({message: "Shop Activated"}))
     .catch(err => res.status(500).json(err));
 });
 
@@ -136,7 +136,7 @@ router.post('/inactive',checkAuth, (req,res,next)=>{
     const id = req.body.id;
     shop.update({_id:id},{isActive:false})
     .exec()
-    .then(data => res.status(200).json(data))
+    .then(data => res.status(200).json({message: "Shop Inactivated"}))
     .catch(err => res.status(500).json(err));
 });
 

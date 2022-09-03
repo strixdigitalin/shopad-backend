@@ -86,21 +86,12 @@ router.post('/subscriptionId/',checkAuth,(req,res,next)=>{
         });
 });
 
-router.get('/delete',checkAuth,(req,res,next)=>{
-    subscription.remove({ _id: req.body.id })
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: "subscription deleted"
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
-});
-
+router.post('/delete',checkAuth, (req,res,next)=>{
+    const id = req.body.id;
+    subscription.remove({_id:id})
+    .exec()
+    .then(data => res.status(200).json({message: "Coupon deleted"}))
+    .catch(err => res.status(500).json(err));
+  });
 module.exports = router;
 

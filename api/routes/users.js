@@ -32,9 +32,31 @@ charactersLength));
 // const upload = multer({storage: storage, limits:{
 //     fileSize: 1024 *1024 *5,
 // }});
+router.get('/',checkAuth,(req,res,next)=>{
+  users.find()
+  .select()
+  .exec()
+  .then(data => {
+      if(data){
+          const respose ={
+              message: 'Data Fetched successfully',
+              count: data.length,
+              data: data,
+          };
+          res.status(200).json(respose);
+      }else{
+          res.status(404).json({message: 'Users not found'});
+      }
+  })
+  .catch(err => {
+      res.status(500).json(err);
+  })
+  // res.status(200).json({message: 'Product not found'});
+});
 
 
 router.post("/signup", (req, res, next) => {
+  console.log(req.body.email);
     User.find({ email: req.body.email })
       .exec()
       .then(user => {
@@ -312,6 +334,25 @@ router.post('/inactive',checkAuth, (req,res,next)=>{
   .exec()
   .then(data => res.status(200).json({message: "User Inactivated"}))
   .catch(err => res.status(500).json(err));
+});
+
+router.post('/uid/',checkAuth,(req,res,next)=>{
+  const id = req.body.id;
+  users.find({_id: req.body.id})
+  .select()
+  .exec()
+  .then(data => {
+      // console.log("Data From Database"+data);
+      if(data){
+          res.status(200).json({data});
+      }else{
+          res.status(404).json({message: "Item Not Found"});
+      }
+  })
+  .catch(error => {
+          console.log(error);
+          res.status(500).json(error);
+      });
 });
 
 module.exports = router;

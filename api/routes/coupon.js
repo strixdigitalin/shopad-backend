@@ -129,6 +129,14 @@ router.post('/useCoupon',checkAuth, (req,res,next)=>{
 }});
 });
 
+router.post('/delete',checkAuth, (req,res,next)=>{
+    const id = req.body.id;
+    coupon.remove({_id:id})
+    .exec()
+    .then(data => res.status(200).json({message: "Coupon deleted"}))
+    .catch(err => res.status(500).json(err));
+  });
+
 
 module.exports = router;
 

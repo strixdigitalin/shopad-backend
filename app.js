@@ -38,6 +38,7 @@ app.use('/feedback', feedbackRoute);
 app.use('/rating', ratingRoute);
 app.use('/coupon', couponRoute);
 app.use('/chat', chatRoute);
+app.use('/subscription', subscriptionRoute);
 app.use('/jobapply', jobapplyRoute);
 
 // No Route Error Handler
