@@ -25,6 +25,8 @@ const couponRoute = require('./api/routes/coupon');
 const chatRoute = require('./api/routes/chat');
 const subscriptionRoute = require('./api/routes/subscription');
 const jobapplyRoute = require('./api/routes/jobapply');
+const likeRoute = require('./api/routes/like');
+const commentRoute = require('./api/routes/comment');
 
 
 
@@ -40,6 +42,8 @@ app.use('/coupon', couponRoute);
 app.use('/chat', chatRoute);
 app.use('/subscription', subscriptionRoute);
 app.use('/jobapply', jobapplyRoute);
+app.use('/like', likeRoute);
+app.use('/comment', commentRoute);
 
 // No Route Error Handler
 app.use((req,res,next) => {

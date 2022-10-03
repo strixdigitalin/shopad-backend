@@ -151,6 +151,22 @@ router.post('/uid/',checkAuth,(req,res,next)=>{
             res.status(500).json(error);
         });
   });
+
+//   router.post('/uploadimage',upload.single('profile'), async (req,res,next)=>{
+//     try {
+//         var base64String = base64Encode(req.file.path);
+//         const uploadString = "data:image/jpeg;base64," + base64String;
+//         const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+//           overwrite: true,
+//           invalidate: true,
+//           crop: "fill",
+//         });
+//      var url =  uploadResponse.secure_url;
+//      console.log(uploadResponse);
+//       } catch (e) {
+//         console.log(e);
+//       }
+// });
   
 
 module.exports = router;

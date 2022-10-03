@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const users = require('../models/users');
 const nodemail = require('../utils/nodemailer');
 const checkAuth = require('../middleware/check-auth');
+const follwers = require('../models/follwers');
 
 
 function makeid(length) {
@@ -141,10 +142,7 @@ router.post("/signup", (req, res, next) => {
                 email: user[0].email,
                 userId: user[0]._id
               },
-              process.env.JWT_KEY,
-              {
-                  expiresIn: "12h"
-              }
+              process.env.JWT_KEY
             );
             return res.status(200).json({
               message: "Auth successful",
@@ -271,6 +269,7 @@ router.post("/update",checkAuth, (req, res, next) => {
           name: req.body.name,
           mobile: req.body.mobile,
           userType: req.body.userType,
+          userProfile: req.body.userProfile,
         }).exec()
               .then(result => {
                 console.log(result);
@@ -355,5 +354,58 @@ router.post('/uid/',checkAuth,(req,res,next)=>{
       });
 });
 
+  router.post('/addfollwer',checkAuth, (req,res,next)=>{
+    follwers.find({ userId: req.body.userId, follwedId: req.body.follwedId, })
+      .exec()
+      .then(follw => {
+        if (follw.length >= 1) {
+          return res.status(400).json({
+            message: "Already Follwed"
+          });
+        }else{
+    const row = new follwers(
+        {
+            _id: new mongoose.Types.ObjectId(),
+            userId: req.body.userId,
+            follwedId: req.body.follwedId
+        }
+    );
+    row.save().then(result=>{
+        console.log(result);
+        res.status(200).json({
+            status: true,
+            message: 'Follwed Sucessfully.',
+            created_feedback: result,
+                });
+    }).catch(error=>{
+        console.log(error);
+        res.status(500).json(error);
+    });
+  }});
+});
+
+router.post('/unfollow',checkAuth, (req,res,next)=>{
+    follwers.remove({ userId: req.body.userId, follwedId: req.body.follwedId, })
+      .exec()
+      .then(follw => {
+          return res.status(400).json({
+            message: "Unfollowed Sucessfully"
+          });
+        });  
+});
+router.post('/followcountbyid',checkAuth, (req,res,next)=>{
+  follwers.find({ userId: req.body.userId})
+  .select()
+  .exec()
+  .then(data => {
+      if(data){
+          const respose ={
+              message: 'Total Count and follower Id in FollwedId Field',
+              count: data.length,
+              data: data,
+          };
+          res.status(200).json(respose);
+        }});
+});
 module.exports = router;
 
