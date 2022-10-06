@@ -50,7 +50,8 @@ router.post('/',checkAuth, (req,res,next)=>{
             ownerId: req.body.ownerId,
             designationName: req.body.designationName,
             salary: req.body.salary,
-            shiftTime: req.body.shiftTime,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
             contactNumber: req.body.contactNumber,
             contactEmail: req.body.contactEmail,
         }
