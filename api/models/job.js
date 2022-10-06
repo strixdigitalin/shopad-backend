@@ -20,7 +20,7 @@ const salesofferScheme = mongoose.Schema(
         salary: {type: String, required: true},
         contactNumber: {type: String, required: true},
         contactEmail: {type: String, required: true},
-        shiftTime: {type: String, required: true, enum: ["day", "night"]},
+        shiftTime: {type: String, required: true},
     }
 );
 
