@@ -60,7 +60,7 @@ router.post('/unlike',checkAuth, (req,res,next)=>{
 });
 
 router.post('/likecountbyitem',checkAuth, (req,res,next)=>{
-  like.find({ userId: req.body.itemId})
+  like.find({ itemId: req.body.itemId})
   .select()
   .exec()
   .then(data => {
