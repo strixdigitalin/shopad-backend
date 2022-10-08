@@ -51,13 +51,13 @@ router.post('/delete',checkAuth, (req,res,next)=>{
 });
 
 router.post('/commentbyitem',checkAuth, (req,res,next)=>{
-  comment.find({ userId: req.body.itemId})
+  comment.find({ itemId: req.body.itemId})
   .select()
   .exec()
   .then(data => {
       if(data){
           const respose ={
-            message: 'Total Count and Comment Id in likedBy Field',
+            message: 'Total Count and Comments',
             count: data.length,
             data: data,
         };
