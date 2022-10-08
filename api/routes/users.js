@@ -394,13 +394,13 @@ router.post('/unfollow',checkAuth, (req,res,next)=>{
         });  
 });
 router.post('/followcountbyid',checkAuth, (req,res,next)=>{
-  follwers.find({ userId: req.body.userId})
+  follwers.find({ follwedId: req.body.userId})
   .select()
   .exec()
   .then(data => {
       if(data){
           const respose ={
-              message: 'Total Count and follower Id in FollwedId Field',
+              message: 'Total Count and follower Id USerId is follwed the Followed Id',
               count: data.length,
               data: data,
           };
