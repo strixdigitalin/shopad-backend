@@ -66,7 +66,7 @@ router.post('/likecountbyitem',checkAuth, (req,res,next)=>{
   .then(data => {
       if(data){
           const respose ={
-              message: 'Total Count and Like Id in likedBy Field',
+              message: 'Total Count and who like this item is in likedBy Field',
               count: data.length,
               data: data,
           };
