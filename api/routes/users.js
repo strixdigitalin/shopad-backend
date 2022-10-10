@@ -3,16 +3,17 @@ const router  = express.Router();
 const User = require('../models/users');
 const mongoose = require('mongoose');
 const { json } = require('body-parser');
-// const multer = require('multer');
+const multer = require('multer');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const users = require('../models/users');
 const nodemail = require('../utils/nodemailer');
 const checkAuth = require('../middleware/check-auth');
 const follwers = require('../models/follwers');
-
-
-function makeid(length) {
+const cloudinary = require('../utils/cloudinary');
+const upload = require('../utils/multer');
+const fs = require('fs');
+function makeid(length){
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
@@ -22,17 +23,12 @@ charactersLength));
  }
  return result;
 }
-// const storage = multer.diskStorage({
-//     destination: function(req, file, cb){
-//     cb(null, './uploads/');
-//     },
-//     filename: function(req, file, cb){
-//     cb(null, new Date().toISOString().replace(/:/g, '-')+file.originalname);
-//     }
-// });
-// const upload = multer({storage: storage, limits:{
-//     fileSize: 1024 *1024 *5,
-// }});
+
+function base64Encode(file) {
+  var body = fs.readFileSync(file);
+  return body.toString("base64");
+}
+
 router.get('/',checkAuth,(req,res,next)=>{
   users.find()
   .select()
@@ -56,7 +52,20 @@ router.get('/',checkAuth,(req,res,next)=>{
 });
 
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", upload.single('Image'), async (req, res, next) => {
+  console.log(req.body);
+  try {
+    var base64String = base64Encode(req.file.path);
+    const uploadString = "data:image/jpeg;base64," + base64String;
+    const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+      overwrite: true,
+      invalidate: true,
+      crop: "fill",
+    });
+ var url =  uploadResponse.secure_url;
+  } catch (e) {
+    console.log(e);
+  }
   console.log(req.body.email);
     User.find({ email: req.body.email })
       .exec()
@@ -78,6 +87,7 @@ router.post("/signup", (req, res, next) => {
                 name: req.body.name,
                 mobile: req.body.mobile,
                 userType: req.body.userType,
+                userProfile: url,
                 password: hash
               });
               user
