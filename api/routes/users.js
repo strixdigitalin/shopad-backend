@@ -52,20 +52,8 @@ router.get('/',checkAuth,(req,res,next)=>{
 });
 
 
-router.post("/signup", upload.single('Image'), async (req, res, next) => {
+router.post("/signup",(req, res, next) => {
   console.log(req.body);
-  try {
-    var base64String = base64Encode(req.file.path);
-    const uploadString = "data:image/jpeg;base64," + base64String;
-    const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-      overwrite: true,
-      invalidate: true,
-      crop: "fill",
-    });
- var url =  uploadResponse.secure_url;
-  } catch (e) {
-    console.log(e);
-  }
   console.log(req.body.email);
     User.find({ email: req.body.email })
       .exec()
@@ -87,7 +75,6 @@ router.post("/signup", upload.single('Image'), async (req, res, next) => {
                 name: req.body.name,
                 mobile: req.body.mobile,
                 userType: req.body.userType,
-                userProfile: url,
                 password: hash
               });
               user
@@ -110,6 +97,8 @@ router.post("/signup", upload.single('Image'), async (req, res, next) => {
         }
       });
   });
+
+  
 
 //   router.delete("/:userId", (req, res, next) => {
 //     User.remove({ _id: req.params.userId })
@@ -266,7 +255,19 @@ router.post("/setpassword", (req, res, next) => {
     });
 });
 
-router.post("/update",checkAuth, (req, res, next) => {
+router.post("/update",checkAuth, upload.single('Image'), async (req, res, next) => {
+  try {
+    var base64String = base64Encode(req.file.path);
+    const uploadString = "data:image/jpeg;base64," + base64String;
+    const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+      overwrite: true,
+      invalidate: true,
+      crop: "fill",
+    });
+ var url =  uploadResponse.secure_url;
+  } catch (e) {
+    console.log(e);
+  }
   User.find({ email: req.body.email, _id: req.body.uid})
     .exec()
     .then(user => {
@@ -279,7 +280,7 @@ router.post("/update",checkAuth, (req, res, next) => {
           name: req.body.name,
           mobile: req.body.mobile,
           userType: req.body.userType,
-          userProfile: req.body.userProfile,
+          userProfile: url,
         }).exec()
               .then(result => {
                 console.log(result);
