@@ -33,7 +33,19 @@ const salesofferScheme = mongoose.Schema(
         },
         resumeLink:{
             type: String,
-            required: true
+            required: false
+        },
+        policeLink:{
+            type: String,
+            required: false
+        },
+        experienceLink:{
+            type: String,
+            required: false
+        },
+        certificateLink:{
+            type: String,
+            required: false
         }
     }
 );

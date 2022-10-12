@@ -17,7 +17,11 @@ const salesofferScheme = mongoose.Schema(
             ref: shop
         },
         location: {type: String, required: true},
-        offerImage: {type: String, required: true},
+        offerImage: {type: String, required: false},
+        offerImage1: {type: String, required: false},
+        offerImage2: {type: String, required: false},
+        offerImage3: {type: String, required: false},
+        offerImage4: {type: String, required: false},
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
     }

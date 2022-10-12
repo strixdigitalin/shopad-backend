@@ -40,14 +40,54 @@ router.get('/',checkAuth,(req,res,next)=>{
     // res.status(200).json({message: 'Product not found'});
 });
 
-router.post('/',checkAuth,upload.single('resumeLink'), async (req,res,next)=>{
+router.post('/',checkAuth,upload.fields([
+    {
+    name: 'resumeLink', maxCount: 1
+  }, 
+  {
+    name: 'policeLink', maxCount: 1
+  },
+  {
+    name: 'experienceLink', maxCount: 1
+  },
+  {
+    name: 'certificateLink', maxCount: 1
+  },
+]), async (req,res,next)=>{
+    console.log(req.files);
     try {
-        // var base64String = base64Encode(req.file.path);
-        // const uploadString = "data:image/jpeg;base64," + base64String;
-        const uploadResponse = await cloudinary.uploader.upload(req.file.path,{
+        path1 = req.files.resumeLink[0];
+        const uploadResponse = await cloudinary.uploader.upload(path1.path,{
             folder: "pdf"});
         console.log(uploadResponse);
      var url =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path2 = req.files.policeLink[0];
+        const uploadResponse = await cloudinary.uploader.upload(path2.path,{
+            folder: "pdf"});
+        console.log(uploadResponse);
+     var url2 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path4 = req.files.experienceLink[0];
+                const uploadResponse = await cloudinary.uploader.upload(path4.path,{
+            folder: "pdf"});
+        console.log(uploadResponse);
+     var url3 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path3 = req.files.certificateLink[0];
+        const uploadResponse = await cloudinary.uploader.upload(path3.path,{
+            folder: "pdf"});
+        console.log(uploadResponse);
+     var url4 =  uploadResponse.secure_url;
       } catch (e) {
         console.log(e);
       }
@@ -60,6 +100,9 @@ router.post('/',checkAuth,upload.single('resumeLink'), async (req,res,next)=>{
             applicantContact: req.body.applicantContact,
             applicantEmail: req.body.applicantEmail,
             resumeLink: url,
+            certificateLink: url4,
+            experienceLink: url3,
+            policeLink: url2,
             timeStamp: new Date(),
         }
     );

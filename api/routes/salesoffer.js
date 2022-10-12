@@ -41,16 +41,85 @@ router.get('/',checkAuth,(req,res,next)=>{
     // res.status(200).json({message: 'Product not found'});
 });
 
-router.post('/',checkAuth,upload.single('offerImage'), async (req,res,next)=>{
+router.post('/',checkAuth,upload.fields([
+    {
+    name: 'offerImage', maxCount: 1
+  }, 
+    {
+    name: 'offerImage1', maxCount: 1
+  }, 
+    {
+    name: 'offerImage2', maxCount: 1
+  }, 
+    {
+    name: 'offerImage3', maxCount: 1
+  }, 
+    {
+    name: 'offerImage4', maxCount: 1
+  }])
+ , async (req,res,next)=>{
     try {
-        var base64String = base64Encode(req.file.path);
+        path0 = req.files.offerImage[0];
+        var base64String = base64Encode(path0.path);
         const uploadString = "data:image/jpeg;base64," + base64String;
         const uploadResponse = await cloudinary.uploader.upload(uploadString, {
           overwrite: true,
           invalidate: true,
           crop: "fill",
         });
-     var url =  uploadResponse.secure_url;
+     var url0 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path1 = req.files.offerImage1[0];
+        var base64String = base64Encode(path1.path);
+        const uploadString = "data:image/jpeg;base64," + base64String;
+        const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+          overwrite: true,
+          invalidate: true,
+          crop: "fill",
+        });
+     var url1 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path2 = req.files.offerImage2[0];
+        var base64String = base64Encode(path2.path);
+        const uploadString = "data:image/jpeg;base64," + base64String;
+        const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+          overwrite: true,
+          invalidate: true,
+          crop: "fill",
+        });
+     var url2 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path3 = req.files.offerImage3[0];
+        var base64String = base64Encode(path3.path);
+        const uploadString = "data:image/jpeg;base64," + base64String;
+        const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+          overwrite: true,
+          invalidate: true,
+          crop: "fill",
+        });
+     var url3 =  uploadResponse.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    try {
+        path4 = req.files.offerImage4[0];
+        var base64String = base64Encode(path4.path);
+        const uploadString = "data:image/jpeg;base64," + base64String;
+        const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+          overwrite: true,
+          invalidate: true,
+          crop: "fill",
+        });
+     var url4 =  uploadResponse.secure_url;
       } catch (e) {
         console.log(e);
       }
@@ -61,7 +130,11 @@ router.post('/',checkAuth,upload.single('offerImage'), async (req,res,next)=>{
             shopId: req.body.shopId,
             description: req.body.description,
             location: req.body.location,
-            offerImage: url,
+            offerImage: url0,
+            offerImage1: url1,
+            offerImage2: url2,
+            offerImage3: url3,
+            offerImage4: url4,
             startDate: req.body.startDate,
             endDate: req.body.endDate
         }
