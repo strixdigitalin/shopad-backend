@@ -411,7 +411,21 @@ router.post('/followcountbyid',checkAuth, (req,res,next)=>{
   .then(data => {
       if(data){
           const respose ={
-              message: 'Total Count and follower Id USerId is follwed the Followed Id',
+              message: 'Follwer COunt of Follwed ID',
+              count: data.length,
+              data: data,
+          };
+          res.status(200).json(respose);
+        }});
+});
+router.post('/followingcountbyid',checkAuth, (req,res,next)=>{
+  follwers.find({ userId: req.body.userId})
+  .select()
+  .exec()
+  .then(data => {
+      if(data){
+          const respose ={
+              message: 'Following Count of User Id',
               count: data.length,
               data: data,
           };
