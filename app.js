@@ -27,6 +27,7 @@ const subscriptionRoute = require('./api/routes/subscription');
 const jobapplyRoute = require('./api/routes/jobapply');
 const likeRoute = require('./api/routes/like');
 const commentRoute = require('./api/routes/comment');
+const categoryRoute = require('./api/routes/category');
 
 
 
@@ -37,6 +38,7 @@ app.use('/shop', shopRoute);
 app.use('/job', jobRoute);
 app.use('/work', workRoute);
 app.use('/feedback', feedbackRoute);
+app.use('/category', categoryRoute);
 app.use('/rating', ratingRoute);
 app.use('/coupon', couponRoute);
 app.use('/chat', chatRoute);
@@ -47,7 +49,7 @@ app.use('/comment', commentRoute);
 
 // No Route Error Handler
 app.use((req,res,next) => {
-    const error = new Error('Uri Not Found');
+    const error = new Error('Welcome to Shop API Developed By Strix Digital');
     error.status = 404;
     next(error);
 });

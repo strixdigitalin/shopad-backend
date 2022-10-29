@@ -13,6 +13,8 @@ const follwers = require('../models/follwers');
 const cloudinary = require('../utils/cloudinary');
 const upload = require('../utils/multer');
 const fs = require('fs');
+const QRCode = require('qrcode')
+
 function makeid(length){
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -80,11 +82,43 @@ router.post("/signup",(req, res, next) => {
               user
                 .save()
                 .then(result => {
-                  console.log(result);
-                  res.status(201).json({
-                    message: "User created",
-                    user: result
-                  });
+                  console.log(result._id);
+                  let data = {
+                    uid :result._id,
+                }
+                // Converting the data into String format
+                let stringdata = JSON.stringify(data)
+                // Print the QR code to terminal
+                Qrcode = QRCode.toDataURL(stringdata,{type:'png'},
+                async function (err,QRcode) {
+                    if(err) return console.log("error occurred");
+                    // console.log('--------------------------------');
+                    // console.log('--------------------------------');
+                    // console.log(QRcode);
+                    // console.log('--------------------------------');
+                    // console.log('--------------------------------');
+                    try{
+                      // var base64String = base64Encode(QRcode);
+                      const uploadString = QRcode;
+                      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+                        overwrite: true,
+                        invalidate: true,
+                        crop: "fill",
+                      });
+                   var url =  uploadResponse.secure_url;
+                    } catch (e) {
+                      console.log(e);
+                    }
+                    // Printing the generated code
+                    User.update({_id: result._id},{
+                      qrImage: url
+                    }).exec(),
+                      res.status(201).json({
+                        message: "User created",
+                        user: result
+                      });
+                    console.log(QRcode)
+                });
                 })
                 .catch(err => {
                   console.log(err);
@@ -420,7 +454,7 @@ router.post('/followcountbyid',checkAuth, (req,res,next)=>{
 });
 router.post('/followingcountbyid',checkAuth, (req,res,next)=>{
   follwers.find({ userId: req.body.userId})
-  .select()
+  .select() 
   .exec()
   .then(data => {
       if(data){

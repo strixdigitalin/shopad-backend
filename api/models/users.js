@@ -21,6 +21,7 @@ const productScheme = mongoose.Schema(
         isActive: {type: Boolean, required: true, default: true},
         userProfile: {type: String}, 
         transactionId: {type: String, default: null} ,
+        qrImage: {type: String, default: null} ,
         subscriptionId: {type: String, default: null} ,
         resetToken: {
             type: String,

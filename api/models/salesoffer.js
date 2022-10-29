@@ -7,6 +7,7 @@ const salesofferScheme = mongoose.Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
         description: {type: String, required: true},
+        cateoryId: {type: String, required: true},
         ownerId: {
             type: String,
             required: true,

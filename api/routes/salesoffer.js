@@ -127,6 +127,7 @@ router.post('/',checkAuth,upload.fields([
         {
             _id: new mongoose.Types.ObjectId(),
             ownerId: req.body.ownerId,
+            cateoryId: req.body.cateoryId,
             shopId: req.body.shopId,
             description: req.body.description,
             location: req.body.location,
@@ -173,6 +174,22 @@ router.post('/byid/',checkAuth,(req,res,next)=>{
 });
 router.post('/ownerid',checkAuth,(req,res,next)=>{
     SalesOffer.find({ownerId: req.body.ownerId})
+    .exec()
+    .then(doc => {
+        // console.log("Data From Database"+doc);
+        if(doc){
+            res.status(200).json({message: "Data From Database", data: doc});
+        }else{
+            res.status(404).json({message: "Item Not Found"});
+        }
+    })
+    .catch(error => {
+            console.log(error);
+            res.status(500).json(error);
+        });
+});
+router.post('/categoryid',checkAuth,(req,res,next)=>{
+    SalesOffer.find({cateoryId: req.body.cateoryId})
     .exec()
     .then(doc => {
         // console.log("Data From Database"+doc);
