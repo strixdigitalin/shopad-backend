@@ -83,8 +83,9 @@ router.post("/signup",(req, res, next) => {
                 .save()
                 .then(result => {
                   console.log(result._id);
+                  qrlink = 'https://strixdigital.in/shop-ad/?uid='.result._id;
                   let data = {
-                    uid :result._id,
+                    qrlink
                 }
                 // Converting the data into String format
                 let stringdata = JSON.stringify(data)
