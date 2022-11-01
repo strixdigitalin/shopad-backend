@@ -83,14 +83,24 @@ router.post("/signup",(req, res, next) => {
                 .save()
                 .then(result => {
                   console.log(result._id);
-                  qrlink = 'https://strixdigital.in/shop-ad/?uid='.result._id;
+                  console.log(result._id);
+                  console.log(result._id);
+                  console.log(result._id);
+                  console.log(result._id);
+                  console.log(result._id);
+                  console.log(result._id);
+                let tid = result._id;
+                  // console.log(tid);
+                let qrlink = 'https://strixdigital.in/shop-ad?uid=';
+                  console.log(qrlink);
+                  console.log(qrlink.concat(result._id));
                   let data = {
-                    qrlink
+                    link: qrlink.concat(result._id),
                 }
                 // Converting the data into String format
                 let stringdata = JSON.stringify(data)
                 // Print the QR code to terminal
-                Qrcode = QRCode.toDataURL(stringdata,{type:'png'},
+                Qrcode = QRCode.toDataURL(qrlink.concat(result._id),{type:'png'},
                 async function (err,QRcode) {
                     if(err) return console.log("error occurred");
                     // console.log('--------------------------------');
