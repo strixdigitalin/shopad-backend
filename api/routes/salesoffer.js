@@ -11,6 +11,8 @@ const cloudinary = require('../utils/cloudinary');
 const upload = require('../utils/multer');
 const SalesOffer = require('../models/salesoffer');
 const salesoffer = require('../models/salesoffer');
+const Like = require('../models/like');
+const Comment = require('../models/comment');
 
 // Require System
 function base64Encode(file) {
@@ -157,15 +159,20 @@ router.post('/',checkAuth,upload.fields([
 
 router.post('/byid/',checkAuth,(req,res,next)=>{
     const id = req.body.id;
+   like = Like.find({ itemId: req.body.id})
+    .select()
+    .exec();
+    const Comment1 = Comment.find({ itemId: req.body.id});
     SalesOffer.findById(id)
     .exec()
     .then(doc => {
         console.log("Data From Database"+doc);
         if(doc){
-            res.status(200).json(doc);
+            res.status(200).json({data: doc, totallike : Like.length, totalcomment: Comment.length});
         }else{
             res.status(404).json({message: "Item Not Found"});
         }
+      
     })
     .catch(error => {
             console.log(error);

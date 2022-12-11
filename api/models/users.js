@@ -4,6 +4,18 @@ const productScheme = mongoose.Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
         name: {type: String, required: true},
+        fathername: {type: String, required: false},
+        mothername: {type: String, required: false},
+        pAddress: {type: String, required: false},
+        rAddress: {type: String, required: false},
+        certifiedCourse: {type: String, required: false},
+        experienceYears: {type: String, required: false},
+        religion: {type: String, required: false},
+        physicalDisablity: {type: String, required: false},
+        martialStatus: {type: String, required: false},
+        experineceCertificate: {type: String, required: false},
+        eduction: {type: Object , required: false},
+        certificate: {type: String, required: false},
         email: {
             type: String,
             required: true,

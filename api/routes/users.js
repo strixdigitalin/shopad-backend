@@ -300,16 +300,36 @@ router.post("/setpassword", (req, res, next) => {
     });
 });
 
-router.post("/update",checkAuth, upload.single('Image'), async (req, res, next) => {
+router.post("/update",checkAuth, upload.fields([
+  {
+  name: 'image', maxCount: 1
+}, 
+  {
+  name: 'certificate', maxCount: 1
+}]), async (req, res, next) => {
   try {
-    var base64String = base64Encode(req.file.path);
+    path0 = req.files.image[0];
+    var base64String = base64Encode(path0.path);
     const uploadString = "data:image/jpeg;base64," + base64String;
     const uploadResponse = await cloudinary.uploader.upload(uploadString, {
       overwrite: true,
       invalidate: true,
       crop: "fill",
     });
- var url =  uploadResponse.secure_url;
+ var url0 =  uploadResponse.secure_url;
+  } catch (e) {
+    console.log(e);
+  }
+try {
+    path1 = req.files.certificate[0];
+    var base64String = base64Encode(path1.path);
+    const uploadString = "data:image/jpeg;base64," + base64String;
+    const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+      overwrite: true,
+      invalidate: true,
+      crop: "fill",
+    });
+ var url1 =  uploadResponse.secure_url;
   } catch (e) {
     console.log(e);
   }
@@ -325,7 +345,19 @@ router.post("/update",checkAuth, upload.single('Image'), async (req, res, next) 
           name: req.body.name,
           mobile: req.body.mobile,
           userType: req.body.userType,
-          userProfile: url,
+          userProfile: url0,
+          certificate: url1,
+          fathername: req.body.fathername,
+          mothername: req.body.mothername,
+          pAddress: req.body.pAddress,
+          rAddress: req.body.rAddress,
+          certifiedCourse: req.body.certifiedCourse,
+          experienceYears: req.body.experienceYears,
+          religion: req.body.religion,
+          physicalDisablity: req.body.physicalDisablity,
+          martialStatus: req.body.martialStatus,
+          experineceCertificate: req.body.experineceCertificate,
+          eduction: req.body.eduction,
         }).exec()
               .then(result => {
                 console.log(result);
