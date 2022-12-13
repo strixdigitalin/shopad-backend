@@ -123,7 +123,7 @@ router.post('/',checkAuth,upload.fields([
 
 router.post('/jobId/',checkAuth,(req,res,next)=>{
     const id = req.body.id;
-    jobapply.findById(id)
+    jobapply.find({jobId: req.body.id})
     .exec()
     .then(doc => {
         console.log("Data From Database"+doc);

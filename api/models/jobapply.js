@@ -26,7 +26,7 @@ const salesofferScheme = mongoose.Schema(
             type: String,
             required: true,
         },
-        applicantEmail: {
+        applicantEmail:{
             type: String,
             required: true,
             match: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -49,4 +49,4 @@ const salesofferScheme = mongoose.Schema(
         }
     }
 );
-module.exports = mongoose.model('Jobapply', salesofferScheme); 
+module.exports = mongoose.model('Jobapply', salesofferScheme);
