@@ -10,6 +10,8 @@ const checkAuth = require('../middleware/check-auth');
 const cloudinary = require('../utils/cloudinary');  
 const upload = require('../utils/multer');
 const shop = require('../models/shop');
+const work = require('../models/work');
+const job = require('../models/job');
 
 
 // Require System
@@ -142,14 +144,15 @@ router.post('/inactive',checkAuth, (req,res,next)=>{
 
 router.post('/location/',checkAuth,(req,res,next)=>{
     const id = req.body.location;
-    shop.find({location: new RegExp(id, 'i')})
+    if(req.body.ask == '1'){
+    shop.find({$or:[{location: new RegExp(id, 'i')},{shopName: new RegExp(id, 'i')},{description: new RegExp(id, 'i')}]})
     .select()
     .exec()
     .then(data => {
         console.log("Data From Database"+data);
         if(data){
             res.status(200).json({
-                message: "Item Found",
+                message: "Shop is Found",
                 data: data
             });
         }else{
@@ -160,6 +163,47 @@ router.post('/location/',checkAuth,(req,res,next)=>{
             console.log(error);
             res.status(500).json(error);
         });
+    }
+    if(req.body.ask=='2'){
+        work.find({$or:[{location: new RegExp(id, 'i')},{shopName: new RegExp(id, 'i')},{description: new RegExp(id, 'i')},{designationName: new RegExp(id, 'i')},{shiftTime: new RegExp(id, 'i')}]})
+        .select()
+        .exec()
+        .then(data => {
+            console.log("Data From Database"+data);
+            if(data){
+                res.status(200).json({
+                    message: "Work is Found",
+                    data: data
+                });
+            }else{
+                res.status(404).json({message: "Item Not Found"});
+            }
+        })
+        .catch(error => {
+                console.log(error);
+                res.status(500).json(error);
+            });
+    }
+    if(req.body.ask=='3'){
+        job.find({$or:[{location: new RegExp(id, 'i')},{shopName: new RegExp(id, 'i')},{description: new RegExp(id, 'i')},{designationName: new RegExp(id, 'i')},{shiftTime: new RegExp(id, 'i')},{firmLocation: new RegExp(id, 'i')}]})
+        .select()
+        .exec()
+        .then(data => {
+            console.log("Data From Database"+data);
+            if(data){
+                res.status(200).json({
+                    message: "Job is Found",
+                    data: data
+                });
+            }else{
+                res.status(404).json({message: "Item Not Found"});
+            }
+        })
+        .catch(error => {
+                console.log(error);
+                res.status(500).json(error);
+            });
+    }
 });
 
 
