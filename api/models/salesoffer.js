@@ -25,6 +25,8 @@ const salesofferScheme = mongoose.Schema(
         offerImage4: {type: String, required: false},
         startDate: {type: String, required: true},
         endDate: {type: String, required: true},
+        price: {type: String, required: true},
+        code: {type: String, required: true},
     }
 );
 

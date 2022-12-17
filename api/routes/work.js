@@ -10,6 +10,7 @@ const checkAuth = require('../middleware/check-auth');
 const cloudinary = require('../utils/cloudinary');  
 const upload = require('../utils/multer');
 const work = require('../models/work');
+const { url } = require('inspector');
 
 
 
@@ -41,7 +42,23 @@ router.get('/',checkAuth,(req,res,next)=>{
     // res.status(200).json({message: 'Product not found'});
 });
 
-router.post('/',checkAuth, (req,res,next)=>{
+router.post('/',checkAuth, upload.fields([
+    {
+    name: 'image', maxCount: 1
+  }]), async (req, res, next) => {
+    try {
+      path0 = req.files.image[0];
+      var base64String = base64Encode(path0.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+   var url0 =  uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
     const row = new work(
         {
             _id: new mongoose.Types.ObjectId(),
@@ -54,6 +71,7 @@ router.post('/',checkAuth, (req,res,next)=>{
             shiftTime: req.body.shiftTime,
             contactNumber: req.body.contactNumber,
             contactEmail: req.body.contactEmail,
+            image: url0
         }
     );
     row.save().then(result=>{

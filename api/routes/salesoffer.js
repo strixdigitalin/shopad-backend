@@ -139,7 +139,9 @@ router.post('/',checkAuth,upload.fields([
             offerImage3: url3,
             offerImage4: url4,
             startDate: req.body.startDate,
-            endDate: req.body.endDate
+            endDate: req.body.endDate,
+            price: req.body.price,
+            code: req.body.code
         }
     );
     row.save().then(result=>{
@@ -153,7 +155,6 @@ router.post('/',checkAuth,upload.fields([
         console.log(error);
         res.status(500).json(error);
     });
-
 });
 
 
@@ -172,7 +173,6 @@ router.post('/byid/',checkAuth,(req,res,next)=>{
         }else{
             res.status(404).json({message: "Item Not Found"});
         }
-      
     })
     .catch(error => {
             console.log(error);
