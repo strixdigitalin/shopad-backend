@@ -206,6 +206,7 @@ router.post("/ownerid", checkAuth, (req, res, next) => {
       res.status(500).json(error);
     });
 });
+
 router.post("/categoryid", checkAuth, (req, res, next) => {
   SalesOffer.find({ cateoryId: req.body.cateoryId })
     .exec()
