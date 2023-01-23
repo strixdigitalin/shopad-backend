@@ -24,7 +24,11 @@ const salesofferScheme = mongoose.Schema({
   name: { type: String, required: true },
   contactNumber: { type: String, required: true },
   contactEmail: { type: String, required: true },
-  image: { type: String, required: true },
+  image1: { type: String },
+  image2: { type: String },
+  image3: { type: String },
+  image4: { type: String },
+  image5: { type: String },
   shiftTime: { type: String, required: true, enum: ["day", "night"] },
 });
 
