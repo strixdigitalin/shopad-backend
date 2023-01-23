@@ -46,13 +46,15 @@ router.post(
   checkAuth,
   upload.fields([
     {
-      name: "image1",
-      maxCount: 1,
+      name: "image",
+      maxCount: 4,
     },
   ]),
   async (req, res, next) => {
+    let url0 = null;
+    console.log(req.files);
     try {
-      path0 = req.files.image1[0];
+      let path0 = req.files.image[0];
       var base64String = base64Encode(path0.path);
       const uploadString = "data:image/jpeg;base64," + base64String;
       const uploadResponse = await cloudinary.uploader.upload(uploadString, {
@@ -60,10 +62,11 @@ router.post(
         invalidate: true,
         crop: "fill",
       });
-      var url0 = uploadResponse.secure_url;
+      url0 = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
+    console.log(url0);
     const row = new work({
       _id: new mongoose.Types.ObjectId(),
       description: req.body.description,
@@ -76,6 +79,7 @@ router.post(
       contactNumber: req.body.contactNumber,
       contactEmail: req.body.contactEmail,
       image1: url0,
+      name: req.body.name,
     });
     row
       .save()
@@ -89,7 +93,7 @@ router.post(
       })
       .catch((error) => {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).send({ success: false, message: error.message });
       });
   }
 );
