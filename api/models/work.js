@@ -21,6 +21,7 @@ const salesofferScheme = mongoose.Schema({
   instaId: { type: String },
   designationName: { type: String, required: true },
   salary: { type: String, required: true },
+  name: { type: String, required: true },
   contactNumber: { type: String, required: true },
   contactEmail: { type: String, required: true },
   image: { type: String, required: true },
