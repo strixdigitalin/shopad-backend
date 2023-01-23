@@ -67,6 +67,11 @@ router.post(
     },
   ]),
   async (req, res, next) => {
+    var url1 = null;
+    var url2 = null;
+    var url3 = null;
+    var url4 = null;
+    var url5 = null;
     try {
       // console.log(req.files);
       // return null;
@@ -78,63 +83,63 @@ router.post(
         invalidate: true,
         crop: "fill",
       });
-      var url1 = uploadResponse.secure_url;
+      url1 = uploadResponse.secure_url;
       console.log(url1);
     } catch (e) {
       console.log(e);
     }
-    try {
-      let path0 = req.files.image2[0];
-      var base64String = base64Encode(path0.path);
-      const uploadString = "data:image/jpeg;base64," + base64String;
-      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-        overwrite: true,
-        invalidate: true,
-        crop: "fill",
-      });
-      var url2 = uploadResponse.secure_url;
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      let path0 = req.files.image3[0];
-      var base64String = base64Encode(path0.path);
-      const uploadString = "data:image/jpeg;base64," + base64String;
-      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-        overwrite: true,
-        invalidate: true,
-        crop: "fill",
-      });
-      var url3 = uploadResponse.secure_url;
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      let path0 = req.files.image4[0];
-      var base64String = base64Encode(path0.path);
-      const uploadString = "data:image/jpeg;base64," + base64String;
-      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-        overwrite: true,
-        invalidate: true,
-        crop: "fill",
-      });
-      var url4 = uploadResponse.secure_url;
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      let path0 = req.files.image5[0];
-      var base64String = base64Encode(path0.path);
-      const uploadString = "data:image/jpeg;base64," + base64String;
-      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-        overwrite: true,
-        invalidate: true,
-        crop: "fill",
-      });
-      var url5 = uploadResponse.secure_url;
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   let path0 = req.files.image2[0];
+    //   var base64String = base64Encode(path0.path);
+    //   const uploadString = "data:image/jpeg;base64," + base64String;
+    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+    //     overwrite: true,
+    //     invalidate: true,
+    //     crop: "fill",
+    //   });
+    //   var url2 = uploadResponse.secure_url;
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // try {
+    //   let path0 = req.files.image3[0];
+    //   var base64String = base64Encode(path0.path);
+    //   const uploadString = "data:image/jpeg;base64," + base64String;
+    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+    //     overwrite: true,
+    //     invalidate: true,
+    //     crop: "fill",
+    //   });
+    //   var url3 = uploadResponse.secure_url;
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // try {
+    //   let path0 = req.files.image4[0];
+    //   var base64String = base64Encode(path0.path);
+    //   const uploadString = "data:image/jpeg;base64," + base64String;
+    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+    //     overwrite: true,
+    //     invalidate: true,
+    //     crop: "fill",
+    //   });
+    //   var url4 = uploadResponse.secure_url;
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // try {
+    //   let path0 = req.files.image5[0];
+    //   var base64String = base64Encode(path0.path);
+    //   const uploadString = "data:image/jpeg;base64," + base64String;
+    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+    //     overwrite: true,
+    //     invalidate: true,
+    //     crop: "fill",
+    //   });
+    //   var url5 = uploadResponse.secure_url;
+    // } catch (e) {
+    //   console.log(e);
+    // }
     const row = new work({
       _id: new mongoose.Types.ObjectId(),
       description: req.body.description,
@@ -165,7 +170,7 @@ router.post(
       })
       .catch((error) => {
         console.log(error);
-        res.status(500).json(error);
+        res.status(400).send({ success: false, message: error.message });
       });
   }
 );
