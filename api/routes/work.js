@@ -51,10 +51,10 @@ router.post(
     },
   ]),
   async (req, res, next) => {
-    let url0 = null;
+    // let url0 = null;
     console.log(req.files);
     try {
-      let path0 = req.files.image[0];
+      path0 = req.files.image[0];
       var base64String = base64Encode(path0.path);
       const uploadString = "data:image/jpeg;base64," + base64String;
       const uploadResponse = await cloudinary.uploader.upload(uploadString, {
@@ -62,7 +62,7 @@ router.post(
         invalidate: true,
         crop: "fill",
       });
-      url0 = uploadResponse.secure_url;
+      var url0 = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
