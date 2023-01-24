@@ -41,18 +41,72 @@ router.get("/", checkAuth, (req, res, next) => {
   // res.status(200).json({message: 'Product not found'});
 });
 
+// router.post(
+//   "/",
+//   checkAuth,
+//   upload.fields([
+//     {
+//       name: "image",
+//       maxCount: 4,
+//     },
+//   ]),
+//   async (req, res, next) => {
+//     // let url0 = null;
+//     console.log(req.files);
+//     try {
+//       path0 = req.files.image[0];
+//       var base64String = base64Encode(path0.path);
+//       const uploadString = "data:image/jpeg;base64," + base64String;
+//       const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+//         overwrite: true,
+//         invalidate: true,
+//         crop: "fill",
+//       });
+//       var url0 = uploadResponse.secure_url;
+//     } catch (e) {
+//       console.log(e);
+//     }
+//     console.log(url0);
+//     const row = new work({
+//       _id: new mongoose.Types.ObjectId(),
+//       description: req.body.description,
+//       location: req.body.location,
+//       shopName: req.body.shopName,
+//       ownerId: req.body.ownerId,
+//       designationName: req.body.designationName,
+//       salary: req.body.salary,
+//       shiftTime: req.body.shiftTime,
+//       contactNumber: req.body.contactNumber,
+//       contactEmail: req.body.contactEmail,
+//       image1: url0,
+//       name: req.body.name,
+//     });
+//     row
+//       .save()
+//       .then((result) => {
+//         console.log(result);
+//         res.status(200).json({
+//           status: true,
+//           message: "work is created successfully.",
+//           created_work: result,
+//         });
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         res.status(500).send({ success: false, message: error.message });
+//       });
+//   }
+// );
 router.post(
   "/",
   checkAuth,
   upload.fields([
     {
       name: "image",
-      maxCount: 4,
+      maxCount: 1,
     },
   ]),
   async (req, res, next) => {
-    // let url0 = null;
-    console.log(req.files);
     try {
       path0 = req.files.image[0];
       var base64String = base64Encode(path0.path);
@@ -66,7 +120,6 @@ router.post(
     } catch (e) {
       console.log(e);
     }
-    console.log(url0);
     const row = new work({
       _id: new mongoose.Types.ObjectId(),
       description: req.body.description,
@@ -93,7 +146,7 @@ router.post(
       })
       .catch((error) => {
         console.log(error);
-        res.status(500).send({ success: false, message: error.message });
+        res.status(500).json(error);
       });
   }
 );
