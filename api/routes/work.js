@@ -131,7 +131,7 @@ router.post(
       shiftTime: req.body.shiftTime,
       contactNumber: req.body.contactNumber,
       contactEmail: req.body.contactEmail,
-      image1: url0,
+      image: url0,
       name: req.body.name,
     });
     row
@@ -229,10 +229,32 @@ router.post("/uid/", checkAuth, (req, res, next) => {
     });
 });
 
+// router.post("/location/", checkAuth, (req, res, next) => {
+//   const id = req.body.location;
+//   work
+//     .find({ location: new RegExp(id, "i") })
+//     .select()
+//     .exec()
+//     .then((data) => {
+//       console.log("Data From Database" + data);
+//       if (data) {
+//         res.status(200).json({
+//           message: "Item Found",
+//           data: data,
+//         });
+//       } else {
+//         res.status(404).json({ message: "Item Not Found" });
+//       }
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       res.status(500).json(error);
+//     });
+// });
 router.post("/location/", checkAuth, (req, res, next) => {
   const id = req.body.location;
   work
-    .find({ location: new RegExp(id, "i") })
+    .find({ $text: { $search: id } })
     .select()
     .exec()
     .then((data) => {
@@ -251,5 +273,4 @@ router.post("/location/", checkAuth, (req, res, next) => {
       res.status(500).json(error);
     });
 });
-
 module.exports = router;

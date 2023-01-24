@@ -31,5 +31,11 @@ const salesofferScheme = mongoose.Schema({
   image5: { type: String },
   shiftTime: { type: String, required: true, enum: ["day", "night"] },
 });
+salesofferScheme.index({
+  location: "text",
+  description: "text",
+  name: "text",
+  shopName: "text",
+});
 
 module.exports = mongoose.model("Work", salesofferScheme);
