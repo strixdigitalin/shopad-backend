@@ -48,6 +48,7 @@ router.post('/',checkAuth, (req,res,next)=>{
             _id: new mongoose.Types.ObjectId(),
             subcriptionName: req.body.subcriptionName,
             amount: req.body.amount,
+            validityDate: req.body.validityDate,
             description: req.body.description,
         }
     );

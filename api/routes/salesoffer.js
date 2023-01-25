@@ -30,7 +30,6 @@ router.get('/',checkAuth,(req,res,next)=>{
                 message: 'Data Fetched successfully', 
                 count: data.length,
                 data: data,
-                
             };
             res.status(200).json(respose);
         }else{

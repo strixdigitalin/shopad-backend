@@ -6,6 +6,7 @@ const salesofferScheme = mongoose.Schema(
         subcriptionName: {type: String, required: true},
         description: {type: String, required: true},
         amount: {type: String, required: true},
+        validityDate : {type: String, required: true}
     }
 );
 module.exports = mongoose.model('Subscription', salesofferScheme); 
