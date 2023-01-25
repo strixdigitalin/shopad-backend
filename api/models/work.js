@@ -28,7 +28,7 @@ const salesofferScheme = mongoose.Schema({
   image2: { type: String },
   image3: { type: String },
   image4: { type: String },
-  image5: { type: String },
+  image: { type: String },
   shiftTime: { type: String, required: true, enum: ["day", "night"] },
 });
 salesofferScheme.index({

@@ -105,6 +105,22 @@ router.post(
       name: "image",
       maxCount: 1,
     },
+    {
+      name: "image1",
+      maxCount: 1,
+    },
+    {
+      name: "image2",
+      maxCount: 1,
+    },
+    {
+      name: "image3",
+      maxCount: 1,
+    },
+    {
+      name: "image4",
+      maxCount: 1,
+    },
   ]),
   async (req, res, next) => {
     try {
@@ -120,6 +136,58 @@ router.post(
     } catch (e) {
       console.log(e);
     }
+    try {
+      path1 = req.files.image1[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      var url1 = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path2 = req.files.image2[0];
+      var base64String = base64Encode(path2.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      var url2 = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path3 = req.files.image3[0];
+      var base64String = base64Encode(path3.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      var url3 = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path4 = req.files.image4[0];
+      var base64String = base64Encode(path4.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      var url4 = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
     const row = new work({
       _id: new mongoose.Types.ObjectId(),
       description: req.body.description,
@@ -132,6 +200,10 @@ router.post(
       contactNumber: req.body.contactNumber,
       contactEmail: req.body.contactEmail,
       image: url0,
+      image1: url1,
+      image2: url2,
+      image3: url3,
+      image4: url4,
       name: req.body.name,
     });
     row
