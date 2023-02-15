@@ -20,7 +20,7 @@ function base64Encode(file) {
   return body.toString("base64");
 }
 
-router.get("/", checkAuth, (req, res, next) => {
+router.get("/", (req, res, next) => {
   const { searchString } = req.query;
   if (searchString) {
     SalesOffer.find({ $text: { $search: searchString } })
