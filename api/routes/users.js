@@ -462,7 +462,7 @@ router.post("/inactive", checkAuth, (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.post("/uid/", checkAuth, (req, res, next) => {
+router.post("/uid/", (req, res, next) => {
   const id = req.body.id;
   users
     .find({ _id: req.body.id })
