@@ -6,8 +6,7 @@ const bodyParser = require("body-parser");
 
 mongoose
   .connect(
-    "mongodb+srv://StrixDigital:" +
-      process.env.MONGO_ATLAS_PW +
+    "mongodb+srv://StrixDigital:Strixdigital2022" +
       "@shopad.puaj8uc.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
