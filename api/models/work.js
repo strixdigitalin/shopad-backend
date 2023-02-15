@@ -4,9 +4,9 @@ const salesofferScheme = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   description: { type: String, required: true },
   ownerId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: users,
+    ref: "User",
   },
   isActive: {
     type: Boolean,

@@ -4,15 +4,24 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-mongoose.connect(
-  "mongodb+srv://StrixDigital:" +
-    process.env.MONGO_ATLAS_PW +
-    "@shopad.puaj8uc.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose
+  .connect(
+    "mongodb+srv://StrixDigital:Strixdigital2022" +
+      "@shopad.puaj8uc.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then((result) => {
+    // msg = "hello";
+    console.log("connected");
+    // console.log(new Date(1614470399*1000))
+  })
+  .catch((err) => {
+    console.log("ERROR WHILE CONNECTION DATABASE ");
+    console.log(">>>>>>>", err);
+  });
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));

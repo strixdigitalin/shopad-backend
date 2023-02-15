@@ -31,7 +31,7 @@ function base64Encode(file) {
   return body.toString("base64");
 }
 
-router.get("/", checkAuth, (req, res, next) => {
+router.get("/", (req, res, next) => {
   users
     .find()
     .select()
@@ -169,6 +169,7 @@ router.post("/signup", (req, res, next) => {
 //   });
 
 router.post("/login", (req, res, next) => {
+  console.log("herere");
   User.find({
     email: req.body.email,
     isActive: true,
@@ -462,20 +463,21 @@ router.post("/inactive", checkAuth, (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.post("/uid/", checkAuth, (req, res, next) => {
+router.post("/uid/", (req, res, next) => {
   const id = req.body.id;
   users
     .find({ _id: req.body.id })
     .select()
     .exec()
     .then((data) => {
-      // console.log("Data From Database"+data);
+      console.log("Data From Database", data);
       if (data) {
         res.status(200).json({ data });
       } else {
         res.status(404).json({ message: "Item Not Found" });
       }
     })
+
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
