@@ -10,6 +10,7 @@ const checkAuth = require("../middleware/check-auth");
 const cloudinary = require("../utils/cloudinary");
 const upload = require("../utils/multer");
 const job = require("../models/job");
+const Facilities = require("../models/Facilities");
 
 // Require System
 function base64Encode(file) {
@@ -207,6 +208,35 @@ router.post("/location/", checkAuth, (req, res, next) => {
       console.log(error);
       res.status(500).json(error);
     });
+});
+
+router.post("/facility", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    // return null;
+    const data = new Facilities(req.body);
+
+    const saveIt = await data.save();
+    if (saveIt) {
+      res.status(200).send({ success: true, data, message: "Facility added" });
+    }
+  } catch (e) {
+    res
+      .status(200)
+      .send({ success: false, message: "Error while creating facility" });
+  }
+});
+
+router.get("/facility", async (req, res, next) => {
+  try {
+    const data = await Facilities.find();
+    res.status(200).send({ success: true, message: "All Ficility", data });
+  } catch (e) {
+    console.log(e);
+    res
+      .status(400)
+      .send({ success: false, message: "Error while getting facilities" });
+  }
 });
 
 module.exports = router;
