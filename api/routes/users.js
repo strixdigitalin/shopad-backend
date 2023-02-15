@@ -470,7 +470,7 @@ router.post("/uid/", (req, res, next) => {
     .select()
     .exec()
     .then((data) => {
-      // console.log("Data From Database"+data);
+      console.log("Data From Database", data);
       if (data) {
         res.status(200).json({ data });
       } else {
