@@ -31,7 +31,7 @@ function base64Encode(file) {
   return body.toString("base64");
 }
 
-router.get("/",  (req, res, next) => {
+router.get("/", (req, res, next) => {
   users
     .find()
     .select()
