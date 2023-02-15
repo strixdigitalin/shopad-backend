@@ -169,6 +169,7 @@ router.post("/signup", (req, res, next) => {
 //   });
 
 router.post("/login", (req, res, next) => {
+  console.log("herere");
   User.find({
     email: req.body.email,
     isActive: true,
@@ -476,6 +477,7 @@ router.post("/uid/", (req, res, next) => {
         res.status(404).json({ message: "Item Not Found" });
       }
     })
+
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
