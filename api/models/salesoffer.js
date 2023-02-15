@@ -7,9 +7,9 @@ const salesofferScheme = mongoose.Schema({
   description: { type: String, required: true },
   cateoryId: { type: String, required: true },
   ownerId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: users,
+    ref: "User",
   },
   shopId: {
     type: String,
@@ -26,6 +26,6 @@ const salesofferScheme = mongoose.Schema({
   price: { type: String, required: true },
   code: { type: String, required: true },
 });
-salesofferScheme.index({ location: "text", description: "text" });
-
+// salesofferScheme.index({ location: "text", description: "text" });
+salesofferScheme.index({ "$**": "text" });
 module.exports = mongoose.model("SalesOffer", salesofferScheme);

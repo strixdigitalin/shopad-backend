@@ -21,24 +21,48 @@ function base64Encode(file) {
 }
 
 router.get("/", checkAuth, (req, res, next) => {
-  SalesOffer.find()
-    .select()
-    .exec()
-    .then(data => {
-        if(data){
-            const respose ={
-                message: 'Data Fetched successfully', 
-                count: data.length,
-                data: data,
-            };
-            res.status(200).json(respose);
-        }else{
-            res.status(404).json({message: 'Product not found'});
+  const { searchString } = req.query;
+  if (searchString) {
+    SalesOffer.find({ $text: { $search: searchString } })
+      .populate({ path: "ownerId" })
+      .select()
+      .exec()
+      .then((data) => {
+        if (data) {
+          const respose = {
+            message: "Data Fetched successfully",
+            count: data.length,
+            data: data,
+          };
+          res.status(200).json(respose);
+        } else {
+          res.status(404).json({ message: "Product not found" });
         }
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  } else {
+    SalesOffer.find()
+      .populate({ path: "ownerId" })
+      .select()
+      .exec()
+      .then((data) => {
+        if (data) {
+          const respose = {
+            message: "Data Fetched successfully",
+            count: data.length,
+            data: data,
+          };
+          res.status(200).json(respose);
+        } else {
+          res.status(404).json({ message: "Product not found" });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  }
   // res.status(200).json({message: 'Product not found'});
 });
 

@@ -18,26 +18,13 @@ function base64Encode(file) {
   return body.toString("base64");
 }
 
-router.get("/", checkAuth, (req, res, next) => {
-  work
-    .find()
-    .select()
-    .exec()
-    .then((data) => {
-      if (data) {
-        const respose = {
-          message: "Data Fetched successfully",
-          count: data.length,
-          data: data,
-        };
-        res.status(200).json(respose);
-      } else {
-        res.status(404).json({ message: "work not found" });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+router.get("/", checkAuth, async (req, res, next) => {
+  const data = await work.find().populate({ path: "ownerId" });
+  res.status(200).send({
+    success: true,
+    message: "Data fetched",
+    data,
+  });
   // res.status(200).json({message: 'Product not found'});
 });
 

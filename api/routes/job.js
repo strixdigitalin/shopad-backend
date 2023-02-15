@@ -20,6 +20,7 @@ function base64Encode(file) {
 router.get("/", checkAuth, (req, res, next) => {
   job
     .find()
+    .populate({ path: "ownerId" })
     .select()
     .exec()
     .then((data) => {
