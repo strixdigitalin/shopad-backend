@@ -18,7 +18,7 @@ function base64Encode(file) {
   return body.toString("base64");
 }
 
-router.get("/", checkAuth, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   const data = await work.find().populate({ path: "ownerId" });
   res.status(200).send({
     success: true,
