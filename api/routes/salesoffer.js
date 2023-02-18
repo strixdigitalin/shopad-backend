@@ -19,6 +19,7 @@ function base64Encode(file) {
   var body = fs.readFileSync(file);
   return body.toString("base64");
 }
+// okay
 
 router.get("/", (req, res, next) => {
   const { searchString } = req.query;
