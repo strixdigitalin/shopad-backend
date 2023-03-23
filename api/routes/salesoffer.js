@@ -26,6 +26,7 @@ router.get("/", (req, res, next) => {
   if (searchString) {
     SalesOffer.find({ $text: { $search: searchString } })
       .populate({ path: "ownerId" })
+      .populate({ path: "cateoryId" })
       .select()
       .exec()
       .then((data) => {
@@ -46,6 +47,7 @@ router.get("/", (req, res, next) => {
   } else {
     SalesOffer.find()
       .populate({ path: "ownerId" })
+      .populate({ path: "cateoryId" })
       .select()
       .exec()
       .then((data) => {
