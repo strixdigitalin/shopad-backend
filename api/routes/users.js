@@ -185,7 +185,7 @@ router.post("/login", async (req, res, next) => {
           email: user[0].email,
           userId: user[0]._id,
         },
-        process.env.JWT_KEY
+        "xirtS"
       );
       return res.status(200).json({
         message: "Auth successful",
