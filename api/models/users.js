@@ -9,11 +9,13 @@ const productScheme = mongoose.Schema({
   rAddress: { type: String, required: false },
   certifiedCourse: { type: String, required: false },
   experienceYears: { type: String, required: false },
+  googleAdd: String,
   religion: { type: String, required: false },
   physicalDisablity: { type: String, required: false },
   martialStatus: { type: String, required: false },
   experineceCertificate: { type: String, required: false },
   eduction: { type: Object, required: false },
+
   certificate: { type: String, required: false },
   email: {
     type: String,

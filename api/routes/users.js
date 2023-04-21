@@ -366,6 +366,7 @@ router.post(
               mothername: req.body.mothername,
               pAddress: req.body.pAddress,
               rAddress: req.body.rAddress,
+              googleAdd: req?.body?.googleAdd ? req.body?.googleAdd : null,
               certifiedCourse: req.body.certifiedCourse,
               experienceYears: req.body.experienceYears,
               religion: req.body.religion,

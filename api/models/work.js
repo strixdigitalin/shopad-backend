@@ -17,6 +17,7 @@ const salesofferScheme = mongoose.Schema({
   shopName: { type: String, required: true },
   facebookId: { type: String },
   emailId: { type: String },
+  googleAdd: String,
   websiteAddress: { type: String },
   instaId: { type: String },
   designationName: { type: String, required: true },
