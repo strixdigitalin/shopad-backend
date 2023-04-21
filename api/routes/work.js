@@ -112,6 +112,7 @@ router.post(
   async (req, res, next) => {
     try {
       path0 = req.files.image[0];
+      console.log(path0);
       var base64String = base64Encode(path0.path);
       const uploadString = "data:image/jpeg;base64," + base64String;
       const uploadResponse = await cloudinary.uploader.upload(uploadString, {

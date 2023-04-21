@@ -96,6 +96,7 @@ router.post(
   ]),
   async (req, res, next) => {
     try {
+      console.log(req.files.offerImage, "<<<< thisisofferimage");
       path0 = req.files.offerImage[0];
       var base64String = base64Encode(path0.path);
       const uploadString = "data:image/jpeg;base64," + base64String;
@@ -105,6 +106,7 @@ router.post(
         crop: "fill",
       });
       var url0 = uploadResponse.secure_url;
+      console.log(url0, "<<thisisurl0");
     } catch (e) {
       console.log(e);
     }
@@ -118,6 +120,7 @@ router.post(
         crop: "fill",
       });
       var url1 = uploadResponse.secure_url;
+      console.log(url1, "<<thisisurl1");
     } catch (e) {
       console.log(e);
     }
