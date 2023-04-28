@@ -333,6 +333,10 @@ router.post(
     } catch (e) {
       console.log(e);
     }
+    var certificateUrl = req.body.experineceCertificate;
+    var policeUrl = req.body.policeVerification;
+    var resume = req.body.resume;
+
     try {
       path1 = req.files.certificate[0];
       var base64String = base64Encode(path1.path);
@@ -342,7 +346,33 @@ router.post(
         invalidate: true,
         crop: "fill",
       });
-      var url1 = uploadResponse.secure_url;
+      certificateUrl = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.resume[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      resume = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.police[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      policeUrl = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -361,7 +391,10 @@ router.post(
               mobile: req.body.mobile,
               userType: req.body.userType,
               userProfile: url0,
-              certificate: url1,
+              certificate: certificateUrl,
+              policeVerification: policeUrl,
+              resume: resume,
+              certificateUrl,
               fathername: req.body.fathername,
               mothername: req.body.mothername,
               pAddress: req.body.pAddress,

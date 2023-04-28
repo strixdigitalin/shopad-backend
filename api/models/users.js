@@ -14,6 +14,10 @@ const productScheme = mongoose.Schema({
   physicalDisablity: { type: String, required: false },
   martialStatus: { type: String, required: false },
   experineceCertificate: { type: String, required: false },
+  policeVerification: { type: String, required: false },
+  resume: { type: String, required: false },
+  file2: { type: String, required: false },
+  file3: { type: String, required: false },
   eduction: { type: Object, required: false },
 
   certificate: { type: String, required: false },
