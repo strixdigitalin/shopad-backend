@@ -318,6 +318,10 @@ router.post(
       name: "certificate",
       maxCount: 1,
     },
+    {
+      name: "resume",
+      maxCount: 1,
+    },
   ]),
   async (req, res, next) => {
     try {
@@ -363,19 +367,19 @@ router.post(
     } catch (e) {
       console.log(e);
     }
-    try {
-      path1 = req.files.police[0];
-      var base64String = base64Encode(path1.path);
-      const uploadString = "data:image/jpeg;base64," + base64String;
-      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-        overwrite: true,
-        invalidate: true,
-        crop: "fill",
-      });
-      policeUrl = uploadResponse.secure_url;
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   path1 = req.files.police[0];
+    //   var base64String = base64Encode(path1.path);
+    //   const uploadString = "data:image/jpeg;base64," + base64String;
+    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+    //     overwrite: true,
+    //     invalidate: true,
+    //     crop: "fill",
+    //   });
+    //   policeUrl = uploadResponse.secure_url;
+    // } catch (e) {
+    //   console.log(e);
+    // }
     User.find({ email: req.body.email, _id: req.body.uid })
       .exec()
       .then((user) => {
