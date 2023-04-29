@@ -63,6 +63,20 @@ router.post(
   ]),
   async (req, res, next) => {
     console.log(req.files);
+    const { resume, certificate, experience } = req.body;
+    if (!resume)
+      return res
+        .status(400)
+        .send({ success: false, message: "Resume is required" });
+    if (!certificate)
+      return res
+        .status(400)
+        .send({ success: false, message: "Certificate is required" });
+    if (!experience)
+      return res
+        .status(400)
+        .send({ success: false, message: "Experience is required" });
+
     try {
       path1 = req.files.resumeLink[0];
       const uploadResponse = await cloudinary.uploader.upload(path1.path, {
@@ -110,9 +124,9 @@ router.post(
       applicantName: req.body.applicantName,
       applicantContact: req.body.applicantContact,
       applicantEmail: req.body.applicantEmail,
-      resumeLink: url,
-      certificateLink: url4,
-      experienceLink: url3,
+      resumeLink: req.body.resume,
+      certificateLink: req.body.certificate,
+      experienceLink: req.body.experience,
       policeLink: url2,
       timeStamp: new Date(),
     });
