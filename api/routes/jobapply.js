@@ -65,7 +65,7 @@ router.post(
     console.log(req.files);
     // const { resume, certificate, experience } = req.body;
     let resume = req.body.resume;
-    let certificate = req.body.certificate;
+    let certificate = req.body.certificate; //education
     let experience = req.body.experience;
     let police = req.body.police;
 
