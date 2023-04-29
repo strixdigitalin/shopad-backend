@@ -13,8 +13,9 @@ const productScheme = mongoose.Schema({
   religion: { type: String, required: false },
   physicalDisablity: { type: String, required: false },
   martialStatus: { type: String, required: false },
-  experineceCertificate: { type: String, required: false, default: null },
+  experineceCertificate: { type: String, required: false, default: null }, // education
   policeVerification: { type: String, required: false, default: null },
+  educationCertificate: { type: String, required: false, default: null },
   resume: { type: String, required: false, default: null },
   file2: { type: String, required: false, default: null },
   file3: { type: String, required: false, default: null },

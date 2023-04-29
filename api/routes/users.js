@@ -322,6 +322,14 @@ router.post(
       name: "resume",
       maxCount: 1,
     },
+    {
+      name: "police",
+      maxCount: 1,
+    },
+    {
+      name: "education",
+      maxCount: 1,
+    },
   ]),
   async (req, res, next) => {
     try {
@@ -340,6 +348,7 @@ router.post(
     var certificateUrl = req.body.experineceCertificate;
     var policeUrl = req.body.policeVerification;
     var resume = req.body.resume;
+    var education = req.body.educationCertificate;
 
     try {
       path1 = req.files.certificate[0];
@@ -367,19 +376,32 @@ router.post(
     } catch (e) {
       console.log(e);
     }
-    // try {
-    //   path1 = req.files.police[0];
-    //   var base64String = base64Encode(path1.path);
-    //   const uploadString = "data:image/jpeg;base64," + base64String;
-    //   const uploadResponse = await cloudinary.uploader.upload(uploadString, {
-    //     overwrite: true,
-    //     invalidate: true,
-    //     crop: "fill",
-    //   });
-    //   policeUrl = uploadResponse.secure_url;
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      path1 = req.files.police[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      policeUrl = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.education[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      educationCertificate = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
     User.find({ email: req.body.email, _id: req.body.uid })
       .exec()
       .then((user) => {
@@ -398,6 +420,7 @@ router.post(
               certificate: certificateUrl,
               policeVerification: policeUrl,
               resume: resume,
+              educationCertificate,
               certificateUrl,
               fathername: req.body.fathername,
               mothername: req.body.mothername,

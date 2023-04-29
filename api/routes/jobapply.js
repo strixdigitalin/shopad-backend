@@ -63,7 +63,12 @@ router.post(
   ]),
   async (req, res, next) => {
     console.log(req.files);
-    const { resume, certificate, experience } = req.body;
+    // const { resume, certificate, experience } = req.body;
+    let resume = req.body.resume;
+    let certificate = req.body.certificate;
+    let experience = req.body.experience;
+    let police = req.body.police;
+
     if (!resume)
       return res
         .status(400)
@@ -83,7 +88,7 @@ router.post(
         folder: "pdf",
       });
       console.log(uploadResponse);
-      var url = uploadResponse.secure_url;
+      resume = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -93,7 +98,7 @@ router.post(
         folder: "pdf",
       });
       console.log(uploadResponse);
-      var url2 = uploadResponse.secure_url;
+      police = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -103,7 +108,7 @@ router.post(
         folder: "pdf",
       });
       console.log(uploadResponse);
-      var url3 = uploadResponse.secure_url;
+      experience = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -113,7 +118,7 @@ router.post(
         folder: "pdf",
       });
       console.log(uploadResponse);
-      var url4 = uploadResponse.secure_url;
+      certificate = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -124,10 +129,10 @@ router.post(
       applicantName: req.body.applicantName,
       applicantContact: req.body.applicantContact,
       applicantEmail: req.body.applicantEmail,
-      resumeLink: req.body.resume,
-      certificateLink: req.body.certificate,
-      experienceLink: req.body.experience,
-      policeLink: url2,
+      resumeLink: resume,
+      certificateLink: certificate, // education
+      experienceLink: experience, //experience
+      policeLink: police,
       timeStamp: new Date(),
     });
     row
