@@ -348,7 +348,7 @@ router.post(
     var certificateUrl = req.body.experineceCertificate;
     var policeUrl = req.body.policeVerification;
     var resume = req.body.resume;
-    var education = req.body.educationCertificate;
+    var educationCertificate = req.body.educationCertificate;
 
     try {
       path1 = req.files.certificate[0];
