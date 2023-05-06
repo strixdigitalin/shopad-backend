@@ -19,7 +19,7 @@ function base64Encode(file) {
 }
 
 router.get("/", async (req, res, next) => {
-  const data = await work.find().populate({ path: "ownerId" });
+  const data = await work.find(req.query).populate({ path: "ownerId" });
   res.status(200).send({
     success: true,
     message: "Data fetched",

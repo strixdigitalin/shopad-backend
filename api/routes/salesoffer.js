@@ -45,7 +45,7 @@ router.get("/", (req, res, next) => {
         res.status(500).json(err);
       });
   } else {
-    SalesOffer.find()
+    SalesOffer.find(req.query)
       .populate({ path: "ownerId" })
       .populate({ path: "cateoryId" })
       .select()

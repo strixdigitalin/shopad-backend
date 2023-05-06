@@ -33,7 +33,7 @@ function base64Encode(file) {
 
 router.get("/", (req, res, next) => {
   users
-    .find()
+    .find(req.query)
     .select()
     .exec()
     .then((data) => {
@@ -125,6 +125,7 @@ router.post("/signup", (req, res, next) => {
                     } catch (e) {
                       console.log(e);
                     }
+
                     // Printing the generated code
                     User.update(
                       { _id: result._id },
