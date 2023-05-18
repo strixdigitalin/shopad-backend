@@ -1,5 +1,7 @@
 const http = require("http");
 const app = require("./app");
-const port = "5000";
+const port = "6000";
 const server = http.createServer(app);
-server.listen(port);
+app.listen(port, () => {
+  console.log("port:", port);
+});

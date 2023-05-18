@@ -91,7 +91,7 @@ router.post("/signup", (req, res, next) => {
                 console.log(result._id);
                 let tid = result._id;
                 // console.log(tid);
-                let qrlink = "https://strixdigital.in/shop-ad?uid=";
+                let qrlink = "https://strixdigital.in/shop-ad/uid=";
                 console.log(qrlink);
                 console.log(qrlink.concat(result._id));
                 let data = {

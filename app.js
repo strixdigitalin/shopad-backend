@@ -22,12 +22,35 @@ mongoose
     console.log("ERROR WHILE CONNECTION DATABASE ");
     console.log(">>>>>>>", err);
   });
-
+// -----
 app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(express.json({ limit: "50mb" }));
+// app.use(express.urlencoded({ limit: "50mb" }));
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb" }));
+
+var cors = require("cors");
+app.use(cors({ origin: true, credentials: true }));
+app.use(function (req, res, next) {
+  console.log(req._parsedUrl.path, "----<<<<<<<<<<<Current ");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
+
+//
 
 // API Routes ........................................................
 const salesofferRoute = require("./api/routes/salesoffer");
@@ -47,6 +70,7 @@ const categoryRoute = require("./api/routes/category");
 
 // End API Routes ....................................................
 app.use("/salesoffer", salesofferRoute);
+// app.use("/salesoffer", salesofferRoute);
 app.use("/user", usersRoute);
 app.use("/shop", shopRoute);
 app.use("/job", jobRoute);
