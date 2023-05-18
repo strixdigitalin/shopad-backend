@@ -35,6 +35,7 @@ app.use(express.json({ limit: "50mb" }));
 
 var cors = require("cors");
 app.use(cors({ origin: true, credentials: true }));
+
 app.use(function (req, res, next) {
   console.log(req._parsedUrl.path, "----<<<<<<<<<<<Current ");
   res.setHeader("Access-Control-Allow-Origin", "*");
