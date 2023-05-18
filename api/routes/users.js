@@ -33,7 +33,7 @@ function base64Encode(file) {
 
 router.get("/", (req, res, next) => {
   users
-    .find()
+    .find(req.query)
     .select()
     .exec()
     .then((data) => {
@@ -91,7 +91,7 @@ router.post("/signup", (req, res, next) => {
                 console.log(result._id);
                 let tid = result._id;
                 // console.log(tid);
-                let qrlink = "https://strixdigital.in/shop-ad?uid=";
+                let qrlink = "https://strixdigital.in/shop-ad/uid=";
                 console.log(qrlink);
                 console.log(qrlink.concat(result._id));
                 let data = {
@@ -125,6 +125,7 @@ router.post("/signup", (req, res, next) => {
                     } catch (e) {
                       console.log(e);
                     }
+
                     // Printing the generated code
                     User.update(
                       { _id: result._id },
@@ -168,51 +169,35 @@ router.post("/signup", (req, res, next) => {
 //       });
 //   });
 
-router.post("/login", (req, res, next) => {
-  console.log("herere");
-  User.find({
-    email: req.body.email,
-    isActive: true,
-    userType: req.body.userType,
-  })
-    .exec()
-    .then((user) => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Auth failed",
-        });
-      }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        if (err) {
-          return res.status(401).json({
-            message: "Auth failed",
-          });
-        }
-        if (result) {
-          const token = jwt.sign(
-            {
-              email: user[0].email,
-              userId: user[0]._id,
-            },
-            process.env.JWT_KEY
-          );
-          return res.status(200).json({
-            message: "Auth successful",
-            user: user,
-            token: token,
-          });
-        }
-        res.status(401).json({
-          message: "Auth failed",
-        });
+router.post("/login", async (req, res, next) => {
+  console.log("herere", req.body);
+  let { email } = req.body;
+  const user = await User.find({ email });
+  console.log(user, "<<< this is user");
+  bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+    if (err) {
+      return res.status(401).json({
+        message: "Auth failed",
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
+    }
+    if (result) {
+      const token = jwt.sign(
+        {
+          email: user[0].email,
+          userId: user[0]._id,
+        },
+        "xirtS"
+      );
+      return res.status(200).json({
+        message: "Auth successful",
+        user: user,
+        token: token,
       });
+    }
+    res.status(401).json({
+      message: "Auth failed",
     });
+  });
 });
 
 router.patch("/:id", (req, res, next) => {
@@ -334,6 +319,18 @@ router.post(
       name: "certificate",
       maxCount: 1,
     },
+    {
+      name: "resume",
+      maxCount: 1,
+    },
+    {
+      name: "police",
+      maxCount: 1,
+    },
+    {
+      name: "education",
+      maxCount: 1,
+    },
   ]),
   async (req, res, next) => {
     try {
@@ -349,6 +346,11 @@ router.post(
     } catch (e) {
       console.log(e);
     }
+    var certificateUrl = req.body.experineceCertificate;
+    var policeUrl = req.body.policeVerification;
+    var resume = req.body.resume;
+    var educationCertificate = req.body.educationCertificate;
+
     try {
       path1 = req.files.certificate[0];
       var base64String = base64Encode(path1.path);
@@ -358,7 +360,46 @@ router.post(
         invalidate: true,
         crop: "fill",
       });
-      var url1 = uploadResponse.secure_url;
+      certificateUrl = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.resume[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      resume = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.police[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      policeUrl = uploadResponse.secure_url;
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      path1 = req.files.education[0];
+      var base64String = base64Encode(path1.path);
+      const uploadString = "data:image/jpeg;base64," + base64String;
+      const uploadResponse = await cloudinary.uploader.upload(uploadString, {
+        overwrite: true,
+        invalidate: true,
+        crop: "fill",
+      });
+      educationCertificate = uploadResponse.secure_url;
     } catch (e) {
       console.log(e);
     }
@@ -377,11 +418,16 @@ router.post(
               mobile: req.body.mobile,
               userType: req.body.userType,
               userProfile: url0,
-              certificate: url1,
+              certificate: certificateUrl,
+              policeVerification: policeUrl,
+              resume: resume,
+              educationCertificate,
+              certificateUrl,
               fathername: req.body.fathername,
               mothername: req.body.mothername,
               pAddress: req.body.pAddress,
               rAddress: req.body.rAddress,
+              googleAdd: req?.body?.googleAdd ? req.body?.googleAdd : null,
               certifiedCourse: req.body.certifiedCourse,
               experienceYears: req.body.experienceYears,
               religion: req.body.religion,

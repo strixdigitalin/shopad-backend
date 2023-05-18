@@ -19,7 +19,7 @@ function base64Encode(file) {
 }
 
 router.get("/", async (req, res, next) => {
-  const data = await work.find().populate({ path: "ownerId" });
+  const data = await work.find(req.query).populate({ path: "ownerId" });
   res.status(200).send({
     success: true,
     message: "Data fetched",
@@ -112,6 +112,7 @@ router.post(
   async (req, res, next) => {
     try {
       path0 = req.files.image[0];
+      console.log(path0);
       var base64String = base64Encode(path0.path);
       const uploadString = "data:image/jpeg;base64," + base64String;
       const uploadResponse = await cloudinary.uploader.upload(uploadString, {

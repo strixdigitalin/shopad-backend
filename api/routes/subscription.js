@@ -95,4 +95,3 @@ router.post('/delete',checkAuth, (req,res,next)=>{
     .catch(err => res.status(500).json(err));
   });
 module.exports = router;
-

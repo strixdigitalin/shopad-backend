@@ -5,7 +5,11 @@ const users = require("./users");
 const salesofferScheme = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   description: { type: String, required: true },
-  cateoryId: { type: String, required: true },
+  cateoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

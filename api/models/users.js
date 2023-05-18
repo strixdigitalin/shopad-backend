@@ -9,12 +9,19 @@ const productScheme = mongoose.Schema({
   rAddress: { type: String, required: false },
   certifiedCourse: { type: String, required: false },
   experienceYears: { type: String, required: false },
+  googleAdd: String,
   religion: { type: String, required: false },
   physicalDisablity: { type: String, required: false },
   martialStatus: { type: String, required: false },
-  experineceCertificate: { type: String, required: false },
+  experienceCertificate: { type: String, required: false, default: null }, // nothing
+  policeVerification: { type: String, required: false, default: null },
+  educationCertificate: { type: String, required: false, default: null }, // educationcerti
+  resume: { type: String, required: false, default: null },
+  file2: { type: String, required: false, default: null },
+  file3: { type: String, required: false, default: null },
   eduction: { type: Object, required: false },
-  certificate: { type: String, required: false },
+
+  certificate: { type: String, required: false, default: null }, // thisisexperience certificate
   email: {
     type: String,
     required: true,

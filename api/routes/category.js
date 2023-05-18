@@ -84,7 +84,7 @@ router.post('/byId/',checkAuth,(req,res,next)=>{
         });
 });
 
-router.get('/delete',checkAuth,(req,res,next)=>{
+router.post('/delete',checkAuth,(req,res,next)=>{
     category.remove({ _id: req.body.id })
       .exec()
       .then(result => {
