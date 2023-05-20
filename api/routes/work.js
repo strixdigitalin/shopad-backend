@@ -19,7 +19,27 @@ function base64Encode(file) {
 }
 
 router.get("/", async (req, res, next) => {
-  const data = await work.find(req.query).populate({ path: "ownerId" });
+  // console.log(req.query);
+  const {searchString}=req.query;
+  let or=[];
+  
+  if(searchString!=='' && searchString!=='undefined' && searchString)
+  {
+    or.push({"location": {$regex: searchString, $options: "i"}});
+    or.push({"ownerId.name": {$regex: searchString, $options: "i"}});
+    or.push({"description": {$regex: searchString, $options: "i"}});
+    or.push({"shopName": {$regex: searchString, $options: "i"}});
+    or.push({"designationName": {$regex: searchString, $options: "i"}});
+    or.push({"contactNumber": {$regex: searchString, $options: "i"}});
+    or.push({"contactEmail": {$regex: searchString, $options: "i"}});
+    or.push({"salary": {$regex: searchString, $options: "i"}});
+  }
+  else
+  {
+    or.push({});
+  }
+  
+  const data = await work.find({$or: or}).populate({ path: "ownerId" });
   res.status(200).send({
     success: true,
     message: "Data fetched",

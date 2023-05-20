@@ -19,8 +19,30 @@ function base64Encode(file) {
 }
 
 router.get("/", (req, res, next) => {
+  const {searchString}=req.query;
+  let or=[];
+  
+  if(searchString!=='' && searchString!=='undefined' && searchString)
+  {
+    or.push({"location": {$regex: searchString, $options: "i"}});
+    or.push({"ownerId.name": {$regex: searchString, $options: "i"}});
+    or.push({"description": {$regex: searchString, $options: "i"}});
+    or.push({"shopName": {$regex: searchString, $options: "i"}});
+    or.push({"designationName": {$regex: searchString, $options: "i"}});
+    or.push({"contactNumber": {$regex: searchString, $options: "i"}});
+    or.push({"contactEmail": {$regex: searchString, $options: "i"}});
+    or.push({"salary": {$regex: searchString, $options: "i"}});
+    or.push({"title": {$regex: searchString, $options: "i"}});
+    or.push({"areaWork": {$regex: searchString, $options: "i"}});
+    or.push({"message": {$regex: searchString, $options: "i"}});
+  }
+  else
+  {
+    or.push({});
+  }
+
   job
-    .find()
+    .find({$or: or})
     .populate({ path: "ownerId" })
     .select()
     .exec()

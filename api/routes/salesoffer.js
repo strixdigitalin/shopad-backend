@@ -23,8 +23,29 @@ function base64Encode(file) {
 
 router.get("/", (req, res, next) => {
   const { searchString } = req.query;
+
+  let or=[];
+  
+  if(searchString!=='' && searchString!=='undefined' && searchString)
+  {
+    or.push({"location": {$regex: searchString, $options: "i"}});
+    or.push({"ownerId.name": {$regex: searchString, $options: "i"}});
+    // or.push({"ownerId.name": {$eq: searchString}});
+    or.push({"description": {$regex: searchString, $options: "i"}});
+    or.push({"cateoryId.categoryName": {$regex: searchString, $options: "i"}});
+    // or.push({"cateoryId.categoryName": {$eq: searchString}});
+    // or.push({"cateoryId.categoryName": searchString});
+    or.push({"code": {$regex: searchString, $options: "i"}});
+    or.push({"price": {$regex: searchString, $options: "i"}});
+  }
+  else
+  {
+    or.push({});
+  }
+
   if (searchString) {
-    SalesOffer.find({ $text: { $search: searchString } })
+    // SalesOffer.find({ $text: { $search: searchString } })
+    SalesOffer.find({ $or: or })
       .populate({ path: "ownerId" })
       .populate({ path: "cateoryId" })
       .select()
