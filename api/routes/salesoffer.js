@@ -184,6 +184,7 @@ router.post(
     } catch (e) {
       console.log(e);
     }
+
     const row = new SalesOffer({
       _id: new mongoose.Types.ObjectId(),
       ownerId: req.body.ownerId,
@@ -201,6 +202,7 @@ router.post(
       price: req.body.price,
       code: req.body.code,
     });
+    
     row
       .save()
       .then((result) => {
@@ -241,6 +243,7 @@ router.post("/byid/", checkAuth, (req, res, next) => {
       res.status(500).json(error);
     });
 });
+
 router.post("/ownerid", checkAuth, (req, res, next) => {
   SalesOffer.find({ ownerId: req.body.ownerId })
     .exec()

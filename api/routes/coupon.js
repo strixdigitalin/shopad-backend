@@ -49,8 +49,10 @@ router.post('/', checkAuth, (req, res, next) => {
             code: req.body.code,
             discount: req.body.discount,
             count: req.body.count,
+            user: req.body.user
         }
     );
+
     row.save().then(result => {
         console.log(result);
         res.status(200).json({
@@ -138,6 +140,4 @@ router.post('/delete', checkAuth, (req, res, next) => {
         .catch(err => res.status(500).json(err));
 });
 
-
 module.exports = router;
-
