@@ -49,7 +49,8 @@ router.post('/', checkAuth, (req, res, next) => {
             code: req.body.code,
             discount: req.body.discount,
             count: req.body.count,
-            user: req.body.user
+            user: req.body.user,
+            subCoupan: req.body.subCoupan
         }
     );
 
@@ -64,6 +65,64 @@ router.post('/', checkAuth, (req, res, next) => {
         console.log(error);
         res.status(500).json(error);
     });
+});
+
+router.post('/addUser', checkAuth, async (req, res, next) => {
+    try {
+        const user=req.body.userId;
+        const coupan=req.body.coupan;
+
+        const check=await coupon.findOne({subCoupan: {$elemMatch: {coupanCode: coupan}}});
+
+        if(check)
+        {
+            let checkUser=check.subCoupan.find(x=>x.users.includes(user));
+            if(!checkUser)
+            {
+                // let users=checkUser.users;
+                // users.push(user);
+
+                // let subCoupan1=check.subCoupan;
+                // let subCoupan=[];
+                // for(let i of subCoupan1)
+                // {
+                //     if(i.coupanCode===coupan)
+                //     {
+                //         subCoupan.push({
+                //             coupanCode: i.coupanCode,
+                //             users: users.concat(user)
+                //         });
+                //     }
+                //     else
+                //     {
+                //         subCoupan.push(i);
+                //     }
+                // }
+
+                let subCoupan=check.subCoupan;
+                let coupanIndex=check.subCoupan.findIndex(x=>x.coupanCode===coupan);
+                subCoupan[coupanIndex]={
+                    ...subCoupan[coupanIndex],
+                    users: subCoupan[coupanIndex].users.concat(user)
+                };
+
+                await coupon.findByIdAndUpdate(check._id, {$set: {subCoupan}},{new: true});
+                res.json({success: true, message: 'Coupan applied'});
+            }
+            else
+            {
+                return res.status(400).json({success: false, message: 'Coupan already applied'});
+            }
+        }
+        else
+        {
+            return res.status(400).json({success: false, message: 'Coupan does not exists'});
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
 });
 
 router.post('/couponId/', checkAuth, (req, res, next) => {

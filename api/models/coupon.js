@@ -17,6 +17,10 @@ const salesofferScheme = mongoose.Schema(
         user: {
             type: Object,
             default: null
+        },
+        subCoupan: {
+            type: Array,
+            default: []
         }
     }
 );
